@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace MoneyBase.Support.Application.Interfaces
 {
-    public interface IAgentRepository
+    public interface IAgentRepository : IGenericRepository<Agent, Guid>
     {
     }
 }

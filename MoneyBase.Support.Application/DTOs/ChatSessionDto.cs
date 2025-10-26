@@ -13,7 +13,7 @@ namespace MoneyBase.Support.Application.DTOs
         public string UserId { get; set; }
         public ChatStatusEnum ChatStatus { get; set; }
         public DateTime LastPollAtUtc { get; set; } = DateTime.UtcNow;
-        public string AgentId { get; set; }
+        public Guid AgentId { get; set; }
         public DateTime CreatedDate { get; set; } = DateTime.UtcNow;
         public int? UpdatedBy { get; set; } = null;
         public DateTime? UpdatedDate { get; set; } = null;

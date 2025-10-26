@@ -11,19 +11,15 @@ namespace MoneyBase.Support.Infrastructure.Persistence.Repositories
     public class UnitOfWork : IUnitOfWork
     {
         private readonly MoneyBaseContext _context;
-        private IGenericRepository<ChatSession, Guid> _chats;
-        private IGenericRepository<Agent, Guid> _agents;
 
+        public IChatRepository Chats { get; }
+        public IAgentRepository Agents { get; }
         public UnitOfWork(MoneyBaseContext context)
         {
+            Chats = new ChatRepository(_context);
+            Agents = new AgentRepository(_context);
             _context = context;
         }
-
-        public IGenericRepository<ChatSession, Guid> Chats
-            => _chats ??= new GenericRepository<ChatSession, Guid>(_context);
-
-        public IGenericRepository<Agent, Guid> Agents
-            => _agents ??= new GenericRepository<Agent, Guid>(_context);
 
         public async Task<int> CommitAsync()
         {

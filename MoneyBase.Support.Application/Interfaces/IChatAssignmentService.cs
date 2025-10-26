@@ -1,4 +1,5 @@
 ﻿using MoneyBase.Support.Application.DTOs;
+using MoneyBase.Support.Domain.Enums;
 using MoneyBase.Support.Shared;
 using System;
 using System.Collections.Generic;
@@ -14,5 +15,8 @@ namespace MoneyBase.Support.Application.Interfaces
         Task<APIResponse<ChatSessionDto>> UpdateChatAsync(Guid chatId);
         Task<APIResponse<ChatSessionDto>> CheckChatStatussAsync(Guid chatId);
         Task<APIResponse<int>> CountPendingAsync();
+        Task<APIResponse<ChatSessionDto>> GetByIdAsync(Guid chatId);
+        Task<APIResponse<List<ChatSessionDto>>> GetChatsBystatus(ChatStatusEnum chatStatusEnum);
+        Task<APIResponse<ChatSessionDto>> UpdateChatAsync(Guid chatId, ChatSessionDto chatSessionDto);
     }
 }

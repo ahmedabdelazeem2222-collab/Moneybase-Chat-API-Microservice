@@ -1,6 +1,7 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using MoneyBase.Support.Application.DTOs;
 using MoneyBase.Support.Application.Interfaces;
+using MoneyBase.Support.Domain.Enums;
 
 namespace MoneyBase.Support.Chat.APIs.Controllers
 {
@@ -27,6 +28,7 @@ namespace MoneyBase.Support.Chat.APIs.Controllers
         }
         #endregion
 
+        #region Internal Agent APIs consumed by other microservices
         [HttpPost("assign")]
         public async Task<IActionResult> AssignChat([FromBody] AssignChatRequest req)
         {
@@ -64,5 +66,25 @@ namespace MoneyBase.Support.Chat.APIs.Controllers
             var result = await _agentService.UpdateAgentAsync(id, agentDto);
             return result.Success ? Ok(result) : BadRequest(result);
         }
+        #endregion
+
+        #region Internal Agent APIs consumed by other microservices
+
+        [HttpGet("get-chat/{id}")]
+        public async Task<IActionResult> GetChatById(Guid id)
+        {
+            var result = await _chatAssignmentService.GetByIdAsync(id);
+            return result.Success ? Ok(result) : NotFound(result);
+        }
+
+
+        [HttpPut("update-chat/{id}")]
+        public async Task<IActionResult> UpdateChat(Guid id, [FromBody] ChatSessionDto chatSessionDto)
+        {
+            var result = await _chatAssignmentService.UpdateChatAsync(id, chatSessionDto);
+            return result.Success ? Ok(result) : BadRequest(result);
+        }
+
+        #endregion
     }
 }

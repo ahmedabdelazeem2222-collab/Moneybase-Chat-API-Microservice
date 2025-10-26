@@ -13,7 +13,6 @@ namespace MoneyBase.Support.Application.Services
         #region Fields
         private readonly IUnitOfWork _unitOfWork;
         private readonly ILogger<ChatAssignmentService> _logger;
-
         public ChatAssignmentService(IUnitOfWork unitOfWork, ILogger<ChatAssignmentService> logger)
         {
             _unitOfWork = unitOfWork;
@@ -21,8 +20,7 @@ namespace MoneyBase.Support.Application.Services
         }
         #endregion
 
-        #region Methods
-
+        #region Public Methods
         public async Task<APIResponse<string>> AssignChatAsync(Guid chatId, Guid agentId)
         {
             var chat = await _unitOfWork.Chats.GetByIdAsync(chatId);
@@ -110,6 +108,73 @@ namespace MoneyBase.Support.Application.Services
                 return APIResponse<int>.InternalServerError("server error", null);
             }
         }
+        public async Task<APIResponse<ChatSessionDto>> GetByIdAsync(Guid chatId)
+        {
+            try
+            {
+                var currentChat = await _unitOfWork.Chats.GetByIdAsync(chatId);
+                if (currentChat == null)
+                   return APIResponse<ChatSessionDto>.NotFound("Chat not found");
+
+                ChatSessionDto chatSessionDto = MapChatSessionToChatSessionDto(currentChat);
+                return APIResponse<ChatSessionDto>.Ok(chatSessionDto);
+
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError(ex, $"ChatAssignmentService/GetByIdAsync failed for chat {chatId}");
+                return APIResponse<ChatSessionDto>.InternalServerError("server error", null);
+            }
+        }
+        public async Task<APIResponse<List<ChatSessionDto>>> GetChatsBystatus(ChatStatusEnum chatStatusEnum)
+        {
+            try
+            {
+                var chats = await _unitOfWork.Chats.GetChatSessionsByStatusAsync(chatStatusEnum);
+                if (chats == null)
+                    return APIResponse<List<ChatSessionDto>>.NotFound("No Data Exists");
+
+                List<ChatSessionDto> chatSessionDtos = MapChatSessionsToDtos(chats);
+                return APIResponse<List<ChatSessionDto>>.Ok(chatSessionDtos);
+
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError(ex, $"ChatAssignmentService/GetChatsBystatus failed for Status {chatStatusEnum}");
+                return APIResponse<List<ChatSessionDto>>.InternalServerError("server error", null);
+            }
+        }
+        public async Task<APIResponse<ChatSessionDto>> UpdateChatAsync(Guid chatId, ChatSessionDto chatSessionDto)
+        {
+            try
+            {
+                var currentChat = await _unitOfWork.Chats.GetByIdAsync(chatId);
+                if (currentChat == null) 
+                    return APIResponse<ChatSessionDto>.NotFound("Chat not found");
+
+                currentChat.LastPollAtUtc = DateTime.UtcNow;
+                currentChat.UpdatedDate = DateTime.UtcNow;
+                currentChat.UpdatedBy = 0; // system for demo purpose
+                currentChat.ChatStatus = chatSessionDto.ChatStatus;
+                currentChat.AgentId = chatSessionDto.AgentId;
+                currentChat.UserId = chatSessionDto.UserId;
+                await _unitOfWork.Chats.UpdateAsync(currentChat);
+                await _unitOfWork.CommitAsync();
+
+                ChatSessionDto chatDto = MapChatSessionToChatSessionDto(currentChat);
+
+                return APIResponse<ChatSessionDto>.Ok(chatSessionDto);
+
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError(ex, "ChatAssignmentService/UpdateChatAsync failed for chat {ChatId}", chatId);
+                return APIResponse<ChatSessionDto>.InternalServerError("server error", null);
+            }
+        }
+        #endregion
+
+        #region Private Session
         private ChatSessionDto MapChatSessionToChatSessionDto(ChatSession chatSession)
         {
             ChatSessionDto chatSessionDto = new ChatSessionDto();
@@ -118,6 +183,16 @@ namespace MoneyBase.Support.Application.Services
             chatSession.UserId = chatSession.UserId;
             chatSession.AgentId = chatSession.AgentId;
             return chatSessionDto;
+        }
+        private List<ChatSessionDto> MapChatSessionsToDtos(List<ChatSession> chatSessions)
+        {
+            return chatSessions.Select(chatSession => new ChatSessionDto
+            {
+                ChatStatus = chatSession.ChatStatus,
+                UserId = chatSession.UserId,
+                AgentId = chatSession.AgentId.HasValue ? chatSession.AgentId.Value : new Guid(),
+                LastPollAtUtc = DateTime.UtcNow
+            }).ToList();
         }
         #endregion
     }

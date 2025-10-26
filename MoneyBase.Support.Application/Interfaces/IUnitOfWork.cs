@@ -9,8 +9,8 @@ namespace MoneyBase.Support.Application.Interfaces
 {
     public interface IUnitOfWork : IDisposable
     {
-        IGenericRepository<ChatSession, Guid> Chats { get; }
-        IGenericRepository<Agent, Guid> Agents { get; }
+        IChatRepository Chats { get; }
+        IAgentRepository Agents { get; }
         Task<int> CommitAsync();
     }
 }

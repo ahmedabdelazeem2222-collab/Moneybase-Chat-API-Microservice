@@ -100,8 +100,8 @@ namespace MoneyBase.Support.Application.Services
         }
 
         /// <summary>
-        /// Manual mapping is preferred, as automated mapping tools 
-        // can cause issues or incorrect results when handling complex objects.
+        /// I preferred Manual mapping, as automated mapping tools like auto mapper
+        // can cause issues or incorrect results somtimes and need many config to handling complex objects.
         /// </summary>
         /// <param name="agent"></param>
         /// <returns></returns>

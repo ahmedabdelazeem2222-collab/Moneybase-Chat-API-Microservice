@@ -1,4 +1,5 @@
 ﻿using Microsoft.EntityFrameworkCore;
+using MoneyBase.Support.Application.DTOs;
 using MoneyBase.Support.Application.Interfaces;
 using MoneyBase.Support.Domain.Entities;
 using MoneyBase.Support.Domain.Enums;
@@ -24,9 +25,9 @@ namespace MoneyBase.Support.Infrastructure.Persistence.Repositories
                 .Where(s => s.ChatStatus == Domain.Enums.ChatStatusEnum.Pending)
                 .CountAsync();
         }
-        public async Task<List<ChatSession>> GetActiveSessionsAsync()
+        public async Task<List<ChatSession>> GetChatSessionsByStatusAsync(ChatStatusEnum chatStatusEnum)
         {
-            return await _dbSet.Where(s => s.ChatStatus == Domain.Enums.ChatStatusEnum.Active).ToListAsync();
+            return await _dbSet.Where(s => s.ChatStatus == chatStatusEnum).ToListAsync();
         }
 
 

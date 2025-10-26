@@ -1,12 +1,7 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using MoneyBase.Support.Application.Interfaces;
-using MoneyBase.Support.Domain.Enums;
-using System;
-using System.Collections.Generic;
-using System.Linq;
 using System.Linq.Expressions;
-using System.Text;
-using System.Threading.Tasks;
+
 
 namespace MoneyBase.Support.Infrastructure.Persistence.Repositories
 {

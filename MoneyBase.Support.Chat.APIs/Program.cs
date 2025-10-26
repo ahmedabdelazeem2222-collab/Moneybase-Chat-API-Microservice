@@ -15,7 +15,7 @@ builder.Services.AddDbContext<MoneyBaseContext>(opt =>
 #endregion
 
 #region Configure Serilog
-string logPath = builder.Configuration["Logging:Url:LogPath"];
+string logPath = builder.Configuration["Logging:Path:LogPath"];
 Log.Logger = new LoggerConfiguration()
     .ReadFrom.Configuration(builder.Configuration)
     .Enrich.FromLogContext()
