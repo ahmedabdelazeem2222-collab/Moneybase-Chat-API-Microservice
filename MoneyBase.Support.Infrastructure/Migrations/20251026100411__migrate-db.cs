@@ -6,7 +6,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 namespace MoneyBase.Support.Infrastructure.Migrations
 {
     /// <inheritdoc />
-    public partial class _createdb : Migration
+    public partial class _migratedb : Migration
     {
         /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)
@@ -15,13 +15,19 @@ namespace MoneyBase.Support.Infrastructure.Migrations
                 name: "Agents",
                 columns: table => new
                 {
-                    Id = table.Column<string>(type: "nvarchar(50)", maxLength: 50, nullable: false),
+                    Id = table.Column<Guid>(type: "uniqueidentifier", maxLength: 50, nullable: false),
                     Name = table.Column<string>(type: "nvarchar(100)", maxLength: 100, nullable: false),
                     Seniority = table.Column<int>(type: "int", nullable: false),
                     ShiftStartHour = table.Column<int>(type: "int", nullable: false),
                     ShiftEndHour = table.Column<int>(type: "int", nullable: false),
                     IsOverflow = table.Column<bool>(type: "bit", nullable: false),
-                    AssignedChatIds = table.Column<string>(type: "nvarchar(max)", nullable: true)
+                    AssignedChatIds = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    CreatedBy = table.Column<int>(type: "int", nullable: false),
+                    CreatedDate = table.Column<DateTime>(type: "datetime2", nullable: false),
+                    UpdatedBy = table.Column<int>(type: "int", nullable: true),
+                    UpdatedDate = table.Column<DateTime>(type: "datetime2", nullable: true),
+                    IsDeleted = table.Column<bool>(type: "bit", nullable: false),
+                    DeletedOn = table.Column<DateTime>(type: "datetime2", nullable: true)
                 },
                 constraints: table =>
                 {
@@ -32,13 +38,18 @@ namespace MoneyBase.Support.Infrastructure.Migrations
                 name: "ChatSessions",
                 columns: table => new
                 {
-                    Id = table.Column<string>(type: "nvarchar(50)", maxLength: 50, nullable: false),
+                    Id = table.Column<Guid>(type: "uniqueidentifier", maxLength: 50, nullable: false),
                     UserId = table.Column<string>(type: "nvarchar(20)", maxLength: 20, nullable: false),
-                    CreatedAtUtc = table.Column<DateTime>(type: "datetime2", nullable: false),
                     ChatStatus = table.Column<int>(type: "int", nullable: false),
                     LastPollAtUtc = table.Column<DateTime>(type: "datetime2", nullable: false),
-                    AssignedAt = table.Column<DateTime>(type: "datetime2", nullable: false),
-                    AgentId = table.Column<string>(type: "nvarchar(50)", nullable: true)
+                    AssignedAt = table.Column<DateTime>(type: "datetime2", nullable: true),
+                    AgentId = table.Column<Guid>(type: "uniqueidentifier", nullable: true),
+                    CreatedBy = table.Column<int>(type: "int", nullable: false),
+                    CreatedDate = table.Column<DateTime>(type: "datetime2", nullable: false),
+                    UpdatedBy = table.Column<int>(type: "int", nullable: true),
+                    UpdatedDate = table.Column<DateTime>(type: "datetime2", nullable: true),
+                    IsDeleted = table.Column<bool>(type: "bit", nullable: false),
+                    DeletedOn = table.Column<DateTime>(type: "datetime2", nullable: true)
                 },
                 constraints: table =>
                 {

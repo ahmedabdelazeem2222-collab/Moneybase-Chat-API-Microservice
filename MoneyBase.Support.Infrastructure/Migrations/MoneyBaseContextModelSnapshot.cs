@@ -24,12 +24,25 @@ namespace MoneyBase.Support.Infrastructure.Migrations
 
             modelBuilder.Entity("MoneyBase.Support.Domain.Entities.Agent", b =>
                 {
-                    b.Property<string>("Id")
+                    b.Property<Guid>("Id")
+                        .ValueGeneratedOnAdd()
                         .HasMaxLength(50)
-                        .HasColumnType("nvarchar(50)");
+                        .HasColumnType("uniqueidentifier");
 
                     b.Property<string>("AssignedChatIds")
                         .HasColumnType("nvarchar(max)");
+
+                    b.Property<int>("CreatedBy")
+                        .HasColumnType("int");
+
+                    b.Property<DateTime>("CreatedDate")
+                        .HasColumnType("datetime2");
+
+                    b.Property<DateTime?>("DeletedOn")
+                        .HasColumnType("datetime2");
+
+                    b.Property<bool>("IsDeleted")
+                        .HasColumnType("bit");
 
                     b.Property<bool>("IsOverflow")
                         .HasColumnType("bit");
@@ -48,6 +61,12 @@ namespace MoneyBase.Support.Infrastructure.Migrations
                     b.Property<int>("ShiftStartHour")
                         .HasColumnType("int");
 
+                    b.Property<int?>("UpdatedBy")
+                        .HasColumnType("int");
+
+                    b.Property<DateTime?>("UpdatedDate")
+                        .HasColumnType("datetime2");
+
                     b.HasKey("Id");
 
                     b.ToTable("Agents");
@@ -55,23 +74,39 @@ namespace MoneyBase.Support.Infrastructure.Migrations
 
             modelBuilder.Entity("MoneyBase.Support.Domain.Entities.ChatSession", b =>
                 {
-                    b.Property<string>("Id")
+                    b.Property<Guid>("Id")
+                        .ValueGeneratedOnAdd()
                         .HasMaxLength(50)
-                        .HasColumnType("nvarchar(50)");
+                        .HasColumnType("uniqueidentifier");
 
-                    b.Property<string>("AgentId")
-                        .HasColumnType("nvarchar(50)");
+                    b.Property<Guid?>("AgentId")
+                        .HasColumnType("uniqueidentifier");
 
-                    b.Property<DateTime>("AssignedAt")
+                    b.Property<DateTime?>("AssignedAt")
                         .HasColumnType("datetime2");
 
                     b.Property<int>("ChatStatus")
                         .HasColumnType("int");
 
-                    b.Property<DateTime>("CreatedAtUtc")
+                    b.Property<int>("CreatedBy")
+                        .HasColumnType("int");
+
+                    b.Property<DateTime>("CreatedDate")
                         .HasColumnType("datetime2");
 
+                    b.Property<DateTime?>("DeletedOn")
+                        .HasColumnType("datetime2");
+
+                    b.Property<bool>("IsDeleted")
+                        .HasColumnType("bit");
+
                     b.Property<DateTime>("LastPollAtUtc")
+                        .HasColumnType("datetime2");
+
+                    b.Property<int?>("UpdatedBy")
+                        .HasColumnType("int");
+
+                    b.Property<DateTime?>("UpdatedDate")
                         .HasColumnType("datetime2");
 
                     b.Property<string>("UserId")
