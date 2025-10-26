@@ -13,7 +13,12 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "MoneyBase.Support.Domain", 
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "MoneyBase.UnitTests", "MoneyBase.UnitTests\MoneyBase.UnitTests.csproj", "{0424A6BD-28B6-46FB-8968-438C91298C2C}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MoneyBase.Support.Shared", "MoneyBase.Support.Shared\MoneyBase.Support.Shared.csproj", "{2DEE7AE6-E4FA-4522-9CE0-93954764FED1}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "MoneyBase.Support.Shared", "MoneyBase.Support.Shared\MoneyBase.Support.Shared.csproj", "{2DEE7AE6-E4FA-4522-9CE0-93954764FED1}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "db-Scripts", "db-Scripts", "{D777C6CB-1F00-416C-B488-1597729B7B14}"
+	ProjectSection(SolutionItems) = preProject
+		C:\Users\Abdelazim PC\Downloads\Moneybase-db-demo-script.sql = C:\Users\Abdelazim PC\Downloads\Moneybase-db-demo-script.sql
+	EndProjectSection
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
