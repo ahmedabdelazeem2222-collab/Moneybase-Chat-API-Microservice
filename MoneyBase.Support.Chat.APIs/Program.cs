@@ -15,11 +15,12 @@ builder.Services.AddDbContext<MoneyBaseContext>(opt =>
 #endregion
 
 #region Configure Serilog
+string logPath = builder.Configuration["Logging:Url:LogPath"];
 Log.Logger = new LoggerConfiguration()
     .ReadFrom.Configuration(builder.Configuration)
     .Enrich.FromLogContext()
     .WriteTo.Console()
-    .WriteTo.File("Logs/app-.log", rollingInterval: RollingInterval.Day)
+    .WriteTo.File(logPath, rollingInterval: RollingInterval.Day)
     .CreateLogger();
 
 builder.Host.UseSerilog();
