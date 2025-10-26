@@ -1,0 +1,10 @@
+2025-10-26 00:54:24.005 +03:00 [ERR] Failed executing DbCommand (46ms) [Parameters=[], CommandType='"Text"', CommandTimeout='30']
+DROP INDEX [IX_ChatSessions_AgentId] ON [ChatSessions];
+DECLARE @var1 sysname;
+SELECT @var1 = [d].[name]
+FROM [sys].[default_constraints] [d]
+INNER JOIN [sys].[columns] [c] ON [d].[parent_column_id] = [c].[column_id] AND [d].[parent_object_id] = [c].[object_id]
+WHERE ([d].[parent_object_id] = OBJECT_ID(N'[ChatSessions]') AND [c].[name] = N'AgentId');
+IF @var1 IS NOT NULL EXEC(N'ALTER TABLE [ChatSessions] DROP CONSTRAINT [' + @var1 + '];');
+ALTER TABLE [ChatSessions] ALTER COLUMN [AgentId] nvarchar(50) NULL;
+CREATE INDEX [IX_ChatSessions_AgentId] ON [ChatSessions] ([AgentId]);
